@@ -26,23 +26,23 @@ attr_accessor :exercises, :date, :workout_id
   type
   end
 
-  def calories_burned
-    result = 0
+ def calories_burned
+    calories = 0.0
+
     @exercises.each do |exercise|
-      if exercise[:intensity] == "high"
-         result += 10
-      end
-      if exercise[:intensity] == "medium"
-         result += 8
-      end
-      if exercise[:intensity] == "low"
-          result += 5
-       end
-      if exercise[:intensity] == nil
-        result += 6
+      if exercise[:category] == "cardio"
+        if exercise[:intensity] == "high"
+          calories += (exercise[:duration_in_min] * 10.0)
+        elsif exercise[:intensity] == "medium"
+          calories += (exercise[:duration_in_min] * 8.0)
+        elsif exercise[:intensity] == "low"
+          calories += (exercise[:duration_in_min] * 5.0)
+        end
+      else
+        calories += exercise[:duration_in_min] * 6.0
       end
     end
-    return result
+    calories
   end
 
   def duration
